@@ -13,6 +13,15 @@ import java.util.List;
 @Entity
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
+	
+	public User(Integer id, Timestamp createdAt, String username, List<Area> areas) {
+		super();
+		this.id = id;
+		this.createdAt = createdAt;
+		this.username = username;
+		this.areas = areas;
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -46,7 +55,7 @@ public class User implements Serializable {
 		this.createdAt = createdAt;
 	}
 
-	public String getUsername() {
+	public String get() {
 		return this.username;
 	}
 
