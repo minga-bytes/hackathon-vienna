@@ -4,8 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.sql.Array;
-import org.hibernate.spatial.dialect.postgis.*;
-import org.hibernate.spatial.GeolatteGeometryType;
+
 
 /**
  * The persistent class for the area database table.
@@ -21,6 +20,8 @@ public class Area implements Serializable {
 
 	@Column(name="created_at")
 	private Timestamp createdAt;
+
+	private Array geo;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
