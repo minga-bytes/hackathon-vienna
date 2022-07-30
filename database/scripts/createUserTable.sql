@@ -1,11 +1,12 @@
 -- Table: public.user
 
-DROP TABLE IF EXISTS public."user";
+DROP TABLE IF EXISTS public."user" CASCADE;
 
 CREATE TABLE IF NOT EXISTS public."user"
 (
     id INT GENERATED ALWAYS AS IDENTITY,
     username character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    access_code character varying(50) NOT NULL,
     created_at timestamp without time zone NOT NULL,
     CONSTRAINT user_pkey PRIMARY KEY (id)
 )
