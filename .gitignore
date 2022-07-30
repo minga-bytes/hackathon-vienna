@@ -6,5 +6,3 @@ backend/.settings/org.eclipse.jpt.core.prefs
 backend/.settings/org.eclipse.jpt.entitygen.new-postgresql(0).public
 backend/.settings/org.eclipse.wst.common.project.facet.core.prefs.xml
 backend/.settings/org.eclipse.wst.common.project.facet.core.xml
-backend/build/classes/META-INF/persistence.xml
-backend/src/main/java/META-INF/persistence.xml
