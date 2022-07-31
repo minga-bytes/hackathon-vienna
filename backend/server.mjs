@@ -1,9 +1,10 @@
-var express = require('express');
-bodyParser = require('body-parser');
+import express from 'express';
+import bodyParser from 'body-parser';
 var app = express();
 app.use(bodyParser.json());
 
-const { Pool, Client } = require('pg')
+import pkg from 'pg';
+const { Pool, Client } = pkg;
 
 const pool = new Pool({
   user: 'postgres',
@@ -13,10 +14,11 @@ const pool = new Pool({
   port: 5432,
 })
 
+const client = await pool.connect();
+
 app.get('/user', function (req, res) {
-    pool.query('SELECT * FROM public.user', (err, queryRes) => {
+    client.query('SELECT * FROM public.user', (err, queryRes) => {
         console.log(res) 
-        pool.end();
         res.send(queryRes);
     });
 });
