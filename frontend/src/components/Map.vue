@@ -1,13 +1,17 @@
 <template>
   <div class="map">
     <div id="map" ref="mapEl"></div>
-    <SearchBar v-model:center="mapCenter"></SearchBar>
+    <SearchBar v-model:center="mapCenter" style="grid-area: search"></SearchBar>
+    <Login style="grid-area: login"></Login>
+    <FAB style="grid-area: fab"></FAB>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import SearchBar from "./SearchBar.vue";
+import Login from "./Login.vue";
+import FAB from "./FAB.vue";
 import { computed } from "vue";
 import { transform } from "ol/proj";
 import type { Coordinate } from "ol/coordinate";
@@ -67,7 +71,8 @@ const mapCenter = computed<Coordinate>({
   display: grid;
   grid-template:
     "a search login" auto
-    "b c d" 1fr / 1fr auto auto;
+    "b c d" 1fr
+    "b c fab" auto / 1fr auto auto;
   gap: .5rem;
 }
 </style>

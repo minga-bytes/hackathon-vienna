@@ -1,5 +1,5 @@
 <template>
-  <form @submit="submit">
+  <form @submit="submit" class="glass-container">
     <input
       id="geocode-input"
       placeholder="Enter an address or place e.g. Vienna"
@@ -81,14 +81,6 @@ form {
   overflow: hidden;
   grid-template-columns: 1fr auto;
   padding: 2px;
-  border-radius: 5px;
-  /* From https://css.glass */
-  background: rgba(255, 255, 255, 0.463);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 input[type="search"] {
