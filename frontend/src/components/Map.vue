@@ -1,32 +1,75 @@
 <template>
-  <div id="map"></div>
-  <form @submit.prevent>
-    <input
-      id="geocode-input"
-      placeholder="Enter an address or place e.g. Vienna"
-      size="50"
-      v-model="query"
-      type="search"
-      @keydown.enter="geocodeButton"
-    />
+  <div>
+    <div id="map" @click="addArea()"></div>
+    <form @submit.prevent>
+      <input
+        id="geocode-input"
+        placeholder="Enter an address or place e.g. Vienna"
+        size="50"
+        v-model="query"
+        type="search"
+        @keydown.enter="geocodeButton"
+      />
+      <button
+        type="button"
+        class="input-group-text"
+        @click="geocodeButton()"
+        id="geocode-button"
+      >
+        Suchen
+      </button>
+    </form>
     <button
-      type="button"
-      class="input-group-text"
-      @click="geocodeButton()"
-      id="geocode-button"
+      id="add_area_button"
+      class="btn btn-primary rounded rounded-circle"
+      @click="startAddingAreaState()"
     >
-      Suchen
+      <i class="bi bi-plus-lg fs-3"></i>
     </button>
-  </form>
+    <!-- Modal -->
+    <div
+      v-if="showModal"
+      id="exampleModal"
+      class="position-absolute top-50 start-50 bg-light"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
 const query = ref("");
 const popup = new Popup();
-let gettingLocation;
-gettingLocation = ref(false);
-let errorStr = null;
+const gettingLocation = ref(false);
+const errorStr = null;
+const addingAreaState = ref(false);
+const showModal = ref(false);
 
 const apiKey =
   "AAPK9d925958623e4e98a74404210231c96bC2iHvmGkPL5qa7ObmIdQzjdK8LeS3rJWGQC0flK5RdXqGX1-Dmxp9vNJ43PHEwvK";
@@ -92,15 +135,18 @@ const geocodeButton = () => {
       console.error(error);
     });
 };
+
+function addArea() {
+  console.log("sdfasdf");
+}
+function startAddingAreaState() {
+  console.log("startAddingAreaState");
+  addingAreaState.value = true;
+  showModal.value = true;
+}
 </script>
 
 <style scoped>
-#location {
-  position: absolute;
-  bottom: 10px;
-  right: 80px;
-}
-
 form {
   position: absolute;
   top: 20px;
@@ -175,5 +221,13 @@ input[type="search"]:focus {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   color: #323232;
+}
+
+#add_area_button {
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  height: 4.5em;
+  width: 4.5em;
 }
 </style>
