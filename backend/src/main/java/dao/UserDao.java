@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -10,15 +11,17 @@ import model.User;
 public class UserDao implements UserDaoInterface {
 	
     private List<User> users;
-    
-
-    
+       
     public UserDao(){
-    	users.add(new User(1,new Timestamp((new Date()).getTime()),"Max Mustermann",null));
     }
 
 	@Override
 	public List<User> getAllUsers() {
+		
+		List<User> userList = new ArrayList<>();
+		userList.add( new User(1, new Timestamp(System.currentTimeMillis()), "Max"));
+		userList.add( new User(2, new Timestamp(System.currentTimeMillis()), "Edmund"));
+		userList.add( new User(3, new Timestamp(System.currentTimeMillis()), "Leo"));
 		return users;
 	}
 
