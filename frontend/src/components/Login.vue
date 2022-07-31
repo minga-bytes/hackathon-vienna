@@ -1,9 +1,8 @@
 <template>
+  <div>
     <button class="glass-container">
-        SHIT
+      <span><i class="icon-user icon-3x"></i></span>
     </button>
+  </div>
 </template>
 
-<script lang="ts" setup>
-
-</script>
