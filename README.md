@@ -1,4 +1,4 @@
-# Project Snow
+# Project Snow ❄️❄️❄️
 
 
 
@@ -9,7 +9,7 @@ The participation in the cleaning process is based on the crowdsourcing princip.
 
 
 ## Users
-
+Cancel changes
 The citizens recieve data about different streets, which are might be cleaned from snow
 and are taken by other citizens. The data is visualized in the app's map and the interaction 
 conducts this map check.
