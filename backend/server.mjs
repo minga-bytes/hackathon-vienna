@@ -25,16 +25,18 @@ app.get('/user', function (req, res) {
     });
 });
 
-app.get('/area', function (req, res) {
-    pool.query('SELECT * FROM public.area', (err, queryRes) => {
-        console.log(res) 
+app.post('/user', function (req, res) {
+    const randomCode = generateAccessCode(10);
+    const createdAt = new Date();
+    console.log('createdAt', createdAt);
+    const user = req.body;
+    client.query(`INSERT INTO public.user (username, access_code) VALUES ('${user.name}', '${randomCode}');`, (err, queryRes) => {
         res.send(queryRes);
     });
 });
 
-app.post('/user', function (req, res) {
-    const user = req.body;
-    client.query(`Insert into INSERT INTO public.user (username) VALUES ('Hans', ${new Date()});`, (err, queryRes) => {
+app.get('/area', function (req, res) {
+    pool.query('SELECT * FROM public.area', (err, queryRes) => {
         console.log(res) 
         res.send(queryRes);
     });
@@ -68,6 +70,17 @@ app.post('/area_to_streets', async function (req, res) {
 
     res.send(fc);
 });
+
+function generateAccessCode(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+        charactersLength));
+   }
+   return result;
+}
 
 var server = app.listen(8081, function () {
    var host = server.address().address
