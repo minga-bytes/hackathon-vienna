@@ -10,7 +10,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'postgres',
-  password: 'passwort',
+  password: 'wsx345',
   port: 5432,
 })
 
@@ -22,6 +22,14 @@ app.get('/user', function (req, res) {
         res.send(queryRes);
     });
 });
+
+app.get('/area', function (req, res) {
+    pool.query('SELECT * FROM public.area', (err, queryRes) => {
+        console.log(res) 
+        res.send(queryRes);
+    });
+});
+
 
 
 app.post('/import_street_data', function (req, res) {
