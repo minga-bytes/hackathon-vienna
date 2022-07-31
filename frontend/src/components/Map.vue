@@ -3,7 +3,7 @@
     <div id="map" ref="mapEl"></div>
     <SearchBar v-model:center="mapCenter" style="grid-area: search"></SearchBar>
     <Login style="grid-area: login"></Login>
-    <FAB style="grid-area: fab"></FAB>
+    <Edit :map="MAP" style="grid-area: edit" />
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 import { ref, watch } from "vue";
 import SearchBar from "./SearchBar.vue";
 import Login from "./Login.vue";
-import FAB from "./FAB.vue";
+import Edit from "./Edit.vue";
 import { computed } from "vue";
 import { transform } from "ol/proj";
 import type { Coordinate } from "ol/coordinate";
@@ -25,6 +25,7 @@ const MAP = new OLMap({
     center: fromLonLat([151.2093, -33.8688]), // Sydney
     zoom: 13,
   }),
+  controls: [],
   layers: [
     new TileLayer({
       source: new XYZ({
@@ -72,7 +73,7 @@ const mapCenter = computed<Coordinate>({
   grid-template:
     "a search login" auto
     "b c d" 1fr
-    "b c fab" auto / 1fr auto auto;
+    "b edit edit" auto / 1fr auto auto;
   gap: .5rem;
 }
 </style>
