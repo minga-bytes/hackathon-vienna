@@ -75,11 +75,11 @@ async function submit(e: Event) {
 
 <style scoped>
 form {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  grid-area: search;
   color: #555;
-  display: flex;
+  display: grid;
+  overflow: hidden;
+  grid-template-columns: 1fr auto;
   padding: 2px;
   border-radius: 5px;
   /* From https://css.glass */
@@ -97,6 +97,8 @@ input[type="search"] {
   margin: 0;
   padding: 7px 8px;
   font-size: 1.25em;
+  flex-shrink: 1;
+  overflow: hidden;
   /* color: inherit; */
 }
 

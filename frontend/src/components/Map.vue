@@ -1,6 +1,8 @@
 <template>
-  <div id="map" ref="mapEl"></div>
-  <SearchBar v-model:center="mapCenter"></SearchBar>
+  <div class="map">
+    <div id="map" ref="mapEl"></div>
+    <SearchBar v-model:center="mapCenter"></SearchBar>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -50,12 +52,22 @@ const mapCenter = computed<Coordinate>({
 }
 
 #map {
-  padding: 0;
-  margin: 0;
-  height: 100vh;
-  width: 100%;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   color: #323232;
+  position: absolute;
+  inset: 0;
+}
+
+.map {
+  padding: .5rem;
+  margin: 0;
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template:
+    "a search login" auto
+    "b c d" 1fr / 1fr auto auto;
+  gap: .5rem;
 }
 </style>
