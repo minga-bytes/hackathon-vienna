@@ -57,7 +57,7 @@ async function submit(e: Event) {
     alert(
       "There was a problem using the geocoder. See the console for details."
     );
-    console.log(err);
+    console.error(err);
     return;
   }
 
@@ -68,8 +68,6 @@ async function submit(e: Event) {
   }
 
   const { location } = response.candidates[0];
-
-  console.log('shit');
 
   mapCenter.value = [location.x, location.y];
 }

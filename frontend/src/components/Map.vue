@@ -37,7 +37,6 @@ const mapCenter = computed<Coordinate>({
     return transform(MAP.getView().getCenter()!, "EPSG:3857", "EPSG:4326");
   },
   set(val) {
-    console.log(val);
     MAP.getView().setCenter(val);
   },
 });
