@@ -34,6 +34,8 @@ import { Draw, Interaction, Modify } from "ol/interaction";
 import Style from "ol/style/Style";
 import Fill from "ol/style/Fill";
 import Stroke from "ol/style/Stroke";
+import { getSelectedStreets } from "@/services";
+import GeoJSON from "ol/format/GeoJSON";
 
 const props = defineProps({
   map: {
@@ -42,15 +44,32 @@ const props = defineProps({
   },
 });
 
-function onFeature(feature: Feature) {
+const STREET_SOURCE = new VectorSource({ wrapX: false });
+const STREETS_LAYER = new VectorLayer({
+  source: STREET_SOURCE,
+  style: new Style({
+    stroke: new Stroke({ color: "red" }),
+    fill: new Fill({ color: "red" }),
+  }),
+});
+
+props.map.addLayer(STREETS_LAYER);
+
+async function onFeature(feature: Feature) {
   const geo = feature.getGeometry();
 
   if (geo === undefined) return;
 
   const format = new WKT();
-  const str = format.writeGeometry(geo);
-  // TODO: Make api call to fetch selected roads
-  console.log(str);
+  const wkt = format.writeGeometry(geo);
+
+  const geojson = await getSelectedStreets(wkt);
+
+  const features = new GeoJSON().readFeatures(geojson);
+  console.log(features.length)
+
+  STREET_SOURCE.addFeatures(features);
+  props.map.getView().fit(STREET_SOURCE.getExtent(), props.map.getSize()!)
 }
 
 const SOURCE = new VectorSource({ wrapX: false });

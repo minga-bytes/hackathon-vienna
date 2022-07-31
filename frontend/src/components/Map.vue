@@ -4,26 +4,33 @@
     <SearchBar v-model:center="mapCenter" style="grid-area: search"></SearchBar>
     <Login style="grid-area: login"></Login>
     <Edit :map="MAP" style="grid-area: edit" />
+    <!-- <LoginRegister /> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, type ComputedRef, type Ref } from "vue";
 import SearchBar from "./SearchBar.vue";
 import Login from "./Login.vue";
 import Edit from "./Edit.vue";
 import { computed } from "vue";
 import { transform } from "ol/proj";
 import type { Coordinate } from "ol/coordinate";
-import { Map as OLMap, View } from "ol";
+import { Collection, Map as OLMap, View } from "ol";
 import XYZ from "ol/source/XYZ";
 import { fromLonLat } from "ol/proj";
 import TileLayer from "ol/layer/Tile";
+import VectorSource from "ol/source/Vector";
+import VectorLayer from "ol/layer/Vector";
+import { useAreasStore, type Area } from "@/stores/areas";
+import Stroke from "ol/style/Stroke";
+import Style from "ol/style/Style";
+import type LineString from "ol/geom/LineString";
 
 const MAP = new OLMap({
   view: new View({
-    center: fromLonLat([151.2093, -33.8688]), // Sydney
-    zoom: 13,
+    center: fromLonLat([12.9816657, 47.4106084]), // Sydney
+    zoom: 15,
   }),
   controls: [],
   layers: [
@@ -47,6 +54,42 @@ const mapCenter = computed<Coordinate>({
     MAP.getView().setCenter(val);
   },
 });
+
+function useAreas(areas: ComputedRef<Area[]>, style: Style): VectorLayer<any> {
+  const source = new VectorSource({ wrapX: false });
+  const layer = new VectorLayer({ source });
+
+  function setSource() {
+    source.clear();
+
+    for (const a of areas.value) {
+      source.addFeature(a);
+      // TODO: Add Features
+    }
+    console.log(layer.getSource()?.getFeatures())
+  }
+
+  setSource();
+
+  watch(areas, setSource);
+
+  return layer;
+}
+
+const areasStore = useAreasStore();
+
+const myLayer = useAreas(
+  computed(() => areasStore.myAreas),
+  new Style({ stroke: new Stroke({ color: "#FF0000" }) })
+);
+
+const othersLayer = useAreas(
+  computed(() => areasStore.otherAreas),
+  new Style({ stroke: new Stroke({ color: "#00FF00" }) })
+);
+
+MAP.addLayer(myLayer);
+MAP.addLayer(othersLayer);
 </script>
 
 <style scoped>
@@ -65,7 +108,7 @@ const mapCenter = computed<Coordinate>({
 }
 
 .map {
-  padding: .5rem;
+  padding: 0.5rem;
   margin: 0;
   position: fixed;
   inset: 0;
@@ -74,6 +117,6 @@ const mapCenter = computed<Coordinate>({
     "a search login" auto
     "b c d" 1fr
     "b edit edit" auto / 1fr auto auto;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 </style>

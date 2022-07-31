@@ -3,7 +3,7 @@
     <input
       id="geocode-input"
       placeholder="Enter an address or place e.g. Vienna"
-      size="50"
+      size="100"
       v-model="query"
       type="search"
     />
@@ -81,12 +81,14 @@ form {
   overflow: hidden;
   grid-template-columns: 1fr auto;
   padding: 2px;
+  margin: 0;
 }
 
 input[type="search"] {
   border: none;
   background-color: transparent;
   margin: 0;
+  width: 100%;
   padding: 7px 8px;
   font-size: 1.25em;
   flex-shrink: 1;
