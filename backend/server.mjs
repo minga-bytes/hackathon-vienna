@@ -4,6 +4,8 @@ var app = express();
 app.use(bodyParser.json({limit: '70mb'}));
 app.use(bodyParser.urlencoded({limit: '70mb', extended: true}));
 
+app.use(bodyParser.text());
+
 import pkg from 'pg';
 const { Pool, Client } = pkg;
 
@@ -36,7 +38,21 @@ app.post('/import_street_data', async function (req, res) {
 
     await Promise.all(promises)
 
-    res.send('Hello POST' );
+    res.send('Hello POST');
+});
+
+app.post('/area_to_streets', async function (req, res) {
+    const areaGeo = req.body;
+    console.log('areaGeo', areaGeo)
+
+    const result = await client.query(`SELECT ST_AsGeoJSON(st_intersection(public.street_data.geo, polygon.polygon)) AS geo
+        FROM public.street_data,
+        st_geomfromtext('${areaGeo}'::text, 4326) polygon(polygon)
+        WHERE st_intersects(public.street_data.geo, polygon.polygon);`);
+
+        const fc = { type: "FeatureCollection", features: result.rows.map((geometry) => ({ geometry, type: 'Feature'})) };
+
+    res.send(fc);
 });
 
 var server = app.listen(8081, function () {
