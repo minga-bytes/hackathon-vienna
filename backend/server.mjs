@@ -13,7 +13,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'postgres',
-  password: 'wsx345',
+  password: 'passwort',
   port: 5432,
 })
 
@@ -21,7 +21,6 @@ const client = await pool.connect();
 
 app.get('/user', function (req, res) {
     client.query('SELECT * FROM public.user', (err, queryRes) => {
-        console.log(res) 
         res.send(queryRes);
     });
 });
@@ -33,6 +32,13 @@ app.get('/area', function (req, res) {
     });
 });
 
+app.post('/user', function (req, res) {
+    const user = req.body;
+    client.query(`Insert into INSERT INTO public.user (username) VALUES ('Hans', ${new Date()});`, (err, queryRes) => {
+        console.log(res) 
+        res.send(queryRes);
+    });
+});
 
 
 app.post('/import_street_data', async function (req, res) {
@@ -58,7 +64,7 @@ app.post('/area_to_streets', async function (req, res) {
         st_geomfromtext('${areaGeo}'::text, 4326) polygon(polygon)
         WHERE st_intersects(public.street_data.geo, polygon.polygon);`);
 
-        const fc = { type: "FeatureCollection", features: result.rows.map((geometry) => ({ geometry, type: 'Feature'})) };
+        const fc = { type: "FeatureCollection", features: result.rows.map((json) => ({ geometry: JSON.parse(json.geo), type: 'Feature'})) };
 
     res.send(fc);
 });
